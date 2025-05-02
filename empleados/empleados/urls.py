@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from applications.empleado.views import IndexView, PruebaListView, ModeloPruebaListView
 
+from django.views.generic.base import RedirectView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', IndexView.as_view(), name='home'),  
     path('lista/',PruebaListView.as_view(), name='home'),  
-    path('', IndexView.as_view()),  
+    
     path('lista-prueba/', ModeloPruebaListView.as_view(), name='home'),  
+
+    path('', RedirectView.as_view(url='/home/', permanent=False)),
 ]
