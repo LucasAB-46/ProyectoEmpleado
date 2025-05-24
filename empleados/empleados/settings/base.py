@@ -1,11 +1,15 @@
 import os
 from pathlib import Path
+import json
 
 # BASE_DIR apunta a la raíz del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# Clave secreta: poné la real en local.py o como variable de entorno
-SECRET_KEY = 'tu-clave-secreta'
+with open("secrets.json") as s:
+    secrets = json.load(s)
+
+SECRET_KEY = secrets["SECRET_KEY"]
+
 
 # No activar DEBUG acá
 DEBUG = False
@@ -22,8 +26,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # local apps
+    'django_ckeditor_5',
     'applications.departamento','applications.empleado'
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+CKEDITOR_5_UPLOADS_PATH = "uploads/"
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
+            'blockQuote', 'insertTable', 'mediaEmbed', '|',
+            'undo', 'redo'
+        ],
+        'language': 'es',
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
