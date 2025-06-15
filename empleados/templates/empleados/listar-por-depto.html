@@ -1,0 +1,14 @@
+{% extends 'utilidades/pagina.html' %}
+
+{% block content %}
+    <div style="display: block; margin: 50px auto; text-align: center;">
+        <h4>Empleados</h4>
+        <ul style="padding: 0">
+            {% for empleado in lista_empleados %}
+                <li style="list-style: none;">
+                    {{ empleado.apellido }} {{ empleado.nombre }} - {{ empleado.get_trabajo_display }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}

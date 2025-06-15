@@ -1,0 +1,17 @@
+{% extends 'utilidades/pagina.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center my-5">
+    <div class="w-50 p-4 border rounded shadow-sm bg-light text-center">
+        <h2 class="mb-4">Confirmar Eliminación</h2>
+
+        <p>¿Estás seguro de que deseas eliminar al empleado <strong>{{ object }}</strong>?</p>
+
+        <form method="post" class="d-flex justify-content-center gap-3 mt-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger px-4">Sí, eliminar</button>
+            <a href="{% url 'empleado_list' %}" class="btn btn-secondary px-4">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock content %}
