@@ -7,6 +7,8 @@ from datetime import date
 
 class EmpleadoForm(forms.ModelForm):
     habilidades = forms.ModelMultipleChoiceField(
+
+        
         queryset=Habilidades.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,

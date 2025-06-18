@@ -1,3 +1,4 @@
+from django.db import models
 from django.contrib import messages
 from django.views.generic import (
     TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -8,6 +9,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import login, logout, authenticate
 from .models import Empleado
 from .forms import EmpleadoForm
+
 
 # Vista principal (Home)
 class IndexView(TemplateView):
@@ -26,6 +28,15 @@ class ListarTodosEmpleados(LoginRequiredMixin, ListView):
         departamento = self.request.GET.get('departamento')
         if departamento:
             queryset = queryset.filter(departamento__nombre=departamento)
+
+        # Filtro por búsqueda de nombre o apellido
+        q = self.request.GET.get('q')
+        if q:
+            queryset = queryset.filter(
+                models.Q(nombre__icontains=q) |
+                models.Q(apellido__icontains=q)
+            )
+
         return queryset
 
 
@@ -43,7 +54,7 @@ class ListarEmpleadosPorDepartamento(LoginRequiredMixin, ListView):
 # Detalle de MiModelo
 class EmpleadoDetailView(LoginRequiredMixin, DetailView):
     model = Empleado
-    template_name = 'empleados/empleado_detail.html'  # Asegúrate de crear este template
+    template_name = 'empleados/empleado_detail.html'
     context_object_name = 'empleado'
 
 
@@ -111,6 +122,7 @@ def sessionLogIn(request):
         else:
             messages.error(request, 'Credenciales incorrectas')
     return render(request, 'empleados/login.html')
+
 
 def sessionLogOut(request):
     logout(request)
